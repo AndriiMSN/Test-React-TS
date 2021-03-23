@@ -1,0 +1,32 @@
+@import "src/styles/variables";
+
+.login-page
+{
+  height: calc(100vh - 79px);
+  min-height: 568px;
+
+  width: 100%;
+
+  background: $grey;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  &-form
+  {
+	width: 100%;
+	max-width: 430px;
+
+
+	h1
+	{
+	  margin-bottom: 40px;
+	  }
+
+	.input-long
+	{
+	  margin-bottom: 28px;
+	  }
+	}
+  }

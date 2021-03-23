@@ -1,0 +1,37 @@
+@import 'variables';
+
+button
+{
+  border: none;
+  cursor: pointer;
+  }
+
+.btn-blue
+{
+  background: $blue;
+
+  font-family: $font1;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 22px;
+  text-align: center;
+  color: #FFF;
+
+  &.full
+  {
+	width: 100%;
+	}
+
+  &.medium
+  {
+	padding: 10px 24px;
+	border-radius: 5px;
+	}
+
+  &.circle
+  {
+	padding: 14px 24px;
+	border-radius: 35px;
+	}
+  }
