@@ -23,3 +23,21 @@ h1
   line-height: 44px;
   color: $text-black;
   }
+
+p
+{
+  padding: 0;
+  margin: 0;
+  font-family: $font1;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 17px;
+  text-align: center;
+  color: rgba($text-grey, 0.4);
+
+  span
+  {
+	font-weight: bold;
+	}
+  }

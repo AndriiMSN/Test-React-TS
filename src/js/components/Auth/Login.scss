@@ -2,17 +2,6 @@
 
 .login-page
 {
-  height: calc(100vh - 79px);
-  min-height: 568px;
-
-  width: 100%;
-
-  background: $grey;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-
   &-form
   {
 	width: 100%;
@@ -22,6 +11,7 @@
 	h1
 	{
 	  margin-bottom: 40px;
+	  text-align: center;
 	  }
 
 	.input-long

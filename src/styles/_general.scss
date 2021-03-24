@@ -1,0 +1,15 @@
+@import "variables";
+
+.container
+{
+  height: calc(100vh - 79px);
+  min-height: 568px;
+
+  width: 100%;
+
+  background: $grey;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  }

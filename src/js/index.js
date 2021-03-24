@@ -1,5 +1,10 @@
-
 import {render} from "react-dom";
 import {App} from './components/App'
+import {createBrowserHistory} from "history";
+import {Router} from 'react-router-dom'
 
-render(<App/>, document.getElementById('root'));
+render(
+    <Router history={createBrowserHistory()}>
+        <App/>
+    </Router>,
+    document.getElementById('root'));
