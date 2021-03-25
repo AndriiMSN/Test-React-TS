@@ -13,12 +13,13 @@ export const Login: React.FC = () => {
     const [isLoading, setLoading] = React.useState<boolean>(false)
 
     const SignIn = (e: React.FormEvent): void => {
-        setLoading(true)
+
         e.preventDefault();
         const EnteredEmail = Email.current!.value;
         const EnteredPassword = Password.current!.value;
 
         if (AuthServices.validation(Email, EnteredEmail, Password, EnteredPassword)) {
+            setLoading(true)
             AuthServices.createUser(EnteredEmail, EnteredPassword)
             AuthServices.sendEmail(EnteredEmail)
             auth.onAuthStateChanged((user) => {
