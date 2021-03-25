@@ -1,7 +1,5 @@
 import React from 'react';
 import '/src/styles/index.scss';
-import {Header} from './Header/Header'
-import {auth} from "../firebase";
 import {Route, Switch, useHistory, Link, Router, Redirect} from "react-router-dom";
 import {Login} from "./Login/Login";
 import {Home} from "./Home/Home";
@@ -19,30 +17,12 @@ interface App {
 
 export const App: React.FC<App> = ({isLogged, setIsLogged, isVerified, setIsVerified}) => {
 
-    auth
-        .onAuthStateChanged(authUser => {
-            console.log(authUser?.emailVerified, authUser?.email)
-            if (authUser?.emailVerified) {
-                setIsVerified(() => true)
-                setIsLogged(() => true)
-            } else if (authUser?.email) {
-                setIsVerified(() => false)
-                setIsLogged(() => true)
-            } else {
-                setIsLogged(() => false)
-                setIsVerified(() => false)
-            }
-        })
-
     let routes = (<></>)
     if (isLogged && !isVerified) {
         routes = (
             <Switch>
-                <Route path={'/login'} component={Login}/>
                 <Route path={'/confirm'} component={Confirm}/>
-                <Route path={'*'}>
-                    <Link to={'/confirm'}>Confirm your account please</Link>
-                </Route>
+                <Redirect to={'/confirm'}/>
             </Switch>
         );
     } else if (isLogged && isVerified) {
@@ -59,7 +39,7 @@ export const App: React.FC<App> = ({isLogged, setIsLogged, isVerified, setIsVeri
         routes = (
             <Switch>
                 <Route path={'/login'} component={Login}/>
-                {!isLogged && <Redirect to={'/login'}/>}
+                <Redirect to={'/login'}/>
             </Switch>
         );
     }
