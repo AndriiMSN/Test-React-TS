@@ -2,96 +2,66 @@ import React from 'react';
 import '/src/styles/index.scss';
 import {Header} from './Header/Header'
 import {auth} from "../firebase";
-import {Route, Switch, useHistory, Link, Router} from "react-router-dom";
-import {NotVerified, Verified} from "./Routes";
+import {Route, Switch, useHistory, Link, Router, Redirect} from "react-router-dom";
 import {Login} from "./Login/Login";
 import {Home} from "./Home/Home";
 import {Confirm} from "./Confirm/Confirm";
 
+interface App {
+    isLogged: boolean,
 
-export const App: React.FC = () => {
+    setIsLogged(p: () => boolean): void
 
-    const history = useHistory();
+    isVerified: boolean,
 
-    const [isLogged, setIsLogged] = React.useState<boolean>(false)
-    const [isVerified, setIsVerified] = React.useState<boolean>(false)
+    setIsVerified(p: () => boolean): void
+}
 
-    React.useEffect(() => {
-        if (auth.isSignInWithEmailLink(window.location.href)) {
-            let email: string = window.localStorage.getItem('emailForSignIn')!;
-            if (!email) {
-                //   @TODO IF ANOTHER DEVISE CONFIRMATION
-                email = "";
+export const App: React.FC<App> = ({isLogged, setIsLogged, isVerified, setIsVerified}) => {
+
+    auth
+        .onAuthStateChanged(authUser => {
+            console.log(authUser?.emailVerified, authUser?.email)
+            if (authUser?.emailVerified) {
+                setIsVerified(() => true)
+                setIsLogged(() => true)
+            } else if (authUser?.email) {
+                setIsVerified(() => false)
+                setIsLogged(() => true)
+            } else {
+                setIsLogged(() => false)
+                setIsVerified(() => false)
             }
-            auth.signInWithEmailLink(email, window.location.href)
-                .then((result) => {
-                    window.localStorage.removeItem('emailForSignIn');
-                    setIsVerified(true)
-                    history.push('/home')
-                })
-                .catch((e) => {
-                    console.log(e)
-                });
+        })
 
-        }
-
-        auth
-            .onAuthStateChanged(authUser => {
-                console.log(authUser?.emailVerified, authUser?.email)
-                if (authUser?.emailVerified) {
-                    setIsVerified(true)
-                    setIsLogged(true)
-                    console.log(isLogged, isVerified)
-                } else if (authUser?.email) {
-                    setIsVerified(false)
-                    setIsLogged(true)
-                    console.log(isLogged, isVerified)
-                } else {
-                    setIsLogged(false)
-                    setIsVerified(false)
-                    console.log(isLogged, isVerified)
-                }
-            })
-    })
-
-
-    return (
-        <>
-            <Header></Header>
-            <div className="container">
-                <Switch>
-                    <Route exact path={"/login"}>
-                        <Login/>
-                    </Route>
-
-                    {isLogged && !isVerified &&
-                    <Route exact path={"/confirm"}>
-                        <Confirm/>
-                    </Route>
-                    }
-
-                    {isLogged && isVerified &&
-                    <Route exact path={"/home"}>
-                        <Home/>
-                    </Route>}
-
-
-                    {isLogged && !isVerified &&
-                    <Route path={'*'}>
-                        <Link to={'/confirm'}>Please confirm your account</Link>
-                    </Route>}
-
-                    {isLogged && isVerified &&
-                    <Route exact path={"*"}>
-                        <h1>Page in progress...</h1>
-                    </Route>}
-
-                    {!isLogged && !isVerified &&
-                    <Route path={'*'}>
-                        <Link to={'/login'}>Please login in your account</Link>
-                    </Route>}
-                </Switch>
-            </div>
-        </>
-    )
+    let routes = (<></>)
+    if (isLogged && !isVerified) {
+        routes = (
+            <Switch>
+                <Route path={'/login'} component={Login}/>
+                <Route path={'/confirm'} component={Confirm}/>
+                <Route path={'*'}>
+                    <Link to={'/confirm'}>Confirm your account please</Link>
+                </Route>
+            </Switch>
+        );
+    } else if (isLogged && isVerified) {
+        routes = (
+            <Switch>
+                <Route path={'/login'} component={Login}/>
+                <Route path={'/home'} component={Home}/>
+                <Route path={'*'}>
+                    <h1>Developing</h1>
+                </Route>
+            </Switch>
+        );
+    } else {
+        routes = (
+            <Switch>
+                <Route path={'/login'} component={Login}/>
+                {!isLogged && <Redirect to={'/login'}/>}
+            </Switch>
+        );
+    }
+    return routes;
 }

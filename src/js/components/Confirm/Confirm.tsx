@@ -1,5 +1,5 @@
 import React from "react";
-import {auth} from "../../firebase";
+import {auth, firebaseConfig} from "../../firebase";
 import {AuthServices} from "../AuthService";
 
 import './Confirm.scss'
@@ -45,11 +45,11 @@ export const Confirm: React.FC = () => {
 
     const [sending, isSending] = React.useState<boolean>(false)
     const Resend = () => {
-        setTimeResend(10)
+        setTimeResend(60)
         isSending(true)
         auth
             .sendSignInLinkToEmail(CurrentUserEmail, {
-                url: 'http://localhost:8080/',
+                url: firebaseConfig.authDomain,
                 handleCodeInApp: true
             })
             .then(() => {

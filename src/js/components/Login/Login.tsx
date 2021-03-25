@@ -2,13 +2,18 @@ import React from "react";
 import './Login.scss'
 import {AuthServices} from "../AuthService";
 import {useHistory} from "react-router-dom";
+import {auth} from "../../firebase";
+
 
 export const Login: React.FC = () => {
     const history = useHistory();
     const Email = React.useRef<HTMLInputElement>(null);
     const Password = React.useRef<HTMLInputElement>(null);
 
+    const [isLoading, setLoading] = React.useState<boolean>(false)
+
     const SignIn = (e: React.FormEvent): void => {
+        setLoading(true)
         e.preventDefault();
         const EnteredEmail = Email.current!.value;
         const EnteredPassword = Password.current!.value;
@@ -16,7 +21,12 @@ export const Login: React.FC = () => {
         if (AuthServices.validation(Email, EnteredEmail, Password, EnteredPassword)) {
             AuthServices.createUser(EnteredEmail, EnteredPassword)
             AuthServices.sendEmail(EnteredEmail)
-            history.push('./confirm')
+            auth.onAuthStateChanged((user) => {
+                if (user) {
+                    history.push('/confirm')
+                    setLoading(false)
+                }
+            })
         }
 
     }
@@ -34,8 +44,9 @@ export const Login: React.FC = () => {
                 <input ref={Password} type={'password'} name={'login-password'} id={'login-password'}
                        placeholder={'••••••••••••••••••••'}/>
             </div>
-            <button type={"submit"} className={'btn-blue circle full'}>
-                Create Account
+            <button disabled={isLoading} type={"submit"} className={'btn-blue circle full'}>
+                {!isLoading && 'Create Account'}
+                {isLoading && 'Loading..'}
             </button>
         </form>
     )

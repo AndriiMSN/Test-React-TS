@@ -1,9 +1,9 @@
-import {auth} from "../firebase";
+import {auth, firebaseConfig} from "../firebase";
 import {useHistory} from "react-router-dom";
 
 class AuthServiceWithEmailAndPassword {
     private actionCodeSetting = {
-        url: 'https://testtask-60d27.web.app',
+        url: firebaseConfig.authDomain,
         handleCodeInApp: true
     }
 
