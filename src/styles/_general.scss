@@ -5,6 +5,8 @@
   height: calc(100vh - 79px);
   min-height: 568px;
 
+  padding: 0 calc(130 / 1920 * 100vw);
+
   width: 100%;
 
   background: $grey;

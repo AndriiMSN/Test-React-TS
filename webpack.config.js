@@ -93,6 +93,7 @@ module.exports = {
     devtool: devtool,
 
     devServer: {
+        historyApiFallback: true,
         contentBase: "./dist",
         hot: true,
     },

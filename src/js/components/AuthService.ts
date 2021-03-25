@@ -1,6 +1,12 @@
-import {auth} from "../../firebase";
+import {auth} from "../firebase";
+import {useHistory} from "react-router-dom";
 
 class AuthServiceWithEmailAndPassword {
+    private actionCodeSetting = {
+        url: 'http://localhost:8080/',
+        handleCodeInApp: true
+    }
+
     validation(
         Email: { current: any; }, EnteredEmail: string,
         Password: { current: any }, EnteredPassword: string
@@ -29,15 +35,30 @@ class AuthServiceWithEmailAndPassword {
             })
     }
 
-    sendEmail(email: string, actionCodeSetting: { url: string, handleCodeInApp: boolean }): void {
-        auth
-            .sendSignInLinkToEmail(email, actionCodeSetting)
-            .then(() => {
-                window.localStorage.setItem('emailForSignIn', email);
-            })
-            .catch((e) => {
-                console.log(e)
-            })
+    sendEmail(
+        email: string,
+        actionCodeSetting = this.actionCodeSetting
+    ): void {
+        if (email !== '') {
+            auth
+                .sendSignInLinkToEmail(email, actionCodeSetting)
+                .then(() => {
+                    window.localStorage.setItem('emailForSignIn', email);
+                })
+                .catch((e) => {
+                    console.log(e)
+                })
+        }
+    }
+
+    signOut = (e?: { preventDefault: () => void; }) => {
+        e && e.preventDefault()
+        console.log('s')
+        auth.signOut().then(() => {
+            useHistory().push('/login')
+        }).catch((error) => {
+            console.log(e)
+        });
     }
 }
 

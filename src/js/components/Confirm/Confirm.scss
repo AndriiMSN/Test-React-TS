@@ -1,0 +1,53 @@
+@import "src/styles/variables";
+
+.confirm-page
+{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+
+  &-content
+  {
+	width: 100%;
+	max-width: 430px;
+
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+
+	h1
+	{
+	  margin-bottom: 20px;
+	  text-align: center;
+	  }
+
+	p
+	{
+	  width: 100%;
+	  max-width: 294px;
+	  margin-bottom: 40px;
+	  }
+
+	div
+	{
+	  margin-top: 15px;
+	  font-family: $font1;
+	  font-style: normal;
+	  font-weight: 600;
+	  font-size: 14px;
+	  line-height: 17px;
+	  text-decoration-line: underline;
+	  cursor: pointer;
+
+	  color: rgba(37, 67, 83, 0.75);
+	  }
+	}
+
+  &-icon
+  {
+	flex: 0 1 100%;
+	max-width: 473px;
+	margin-left: calc(243 / 1920 * 100vw);
+	}
+  }
