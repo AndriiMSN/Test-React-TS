@@ -3,7 +3,7 @@ import {useHistory} from "react-router-dom";
 
 class AuthServiceWithEmailAndPassword {
     private actionCodeSetting = {
-        url: 'http://localhost:8080/',
+        url: 'https://testtask-60d27.web.app',
         handleCodeInApp: true
     }
 

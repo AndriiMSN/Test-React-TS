@@ -19,7 +19,7 @@ export const Header: React.FC = () => {
             <nav className={'header-nav'}>
                 {NavBarLinks
                     .map((el, index) =>
-                        <NavLink key={index} to={el.link}>{el.name}</NavLink>)}
+                        <Link key={index} to={el.link}>{el.name}</Link>)}
                 <button className={'btn-blue medium'}>
                     Post a pitch
                 </button>

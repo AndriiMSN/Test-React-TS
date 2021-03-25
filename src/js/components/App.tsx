@@ -2,9 +2,10 @@ import React from 'react';
 import '/src/styles/index.scss';
 import {Header} from './Header/Header'
 import {auth} from "../firebase";
-import {Route, Switch, useHistory, Link} from "react-router-dom";
-import {Routes} from "./Routes";
+import {Route, Switch, useHistory, Link, Router} from "react-router-dom";
+import {NotVerified, Verified} from "./Routes";
 import {Login} from "./Login/Login";
+import {Home} from "./Home/Home";
 import {Confirm} from "./Confirm/Confirm";
 
 
@@ -16,7 +17,6 @@ export const App: React.FC = () => {
     const [isVerified, setIsVerified] = React.useState<boolean>(false)
 
     React.useEffect(() => {
-        console.log('use')
         if (auth.isSignInWithEmailLink(window.location.href)) {
             let email: string = window.localStorage.getItem('emailForSignIn')!;
             if (!email) {
@@ -26,9 +26,8 @@ export const App: React.FC = () => {
             auth.signInWithEmailLink(email, window.location.href)
                 .then((result) => {
                     window.localStorage.removeItem('emailForSignIn');
-                    console.log(result)
-                    history.push('/home')
                     setIsVerified(true)
+                    history.push('/home')
                 })
                 .catch((e) => {
                     console.log(e)
@@ -38,31 +37,59 @@ export const App: React.FC = () => {
 
         auth
             .onAuthStateChanged(authUser => {
-                console.log(authUser)
-                if (authUser && authUser.emailVerified) {
+                console.log(authUser?.emailVerified, authUser?.email)
+                if (authUser?.emailVerified) {
                     setIsVerified(true)
                     setIsLogged(true)
-                    history.push('/home')
-                } else if (authUser) {
+                    console.log(isLogged, isVerified)
+                } else if (authUser?.email) {
+                    setIsVerified(false)
                     setIsLogged(true)
-                    history.push('/confirm')
-                } else if (!authUser) {
+                    console.log(isLogged, isVerified)
+                } else {
                     setIsLogged(false)
                     setIsVerified(false)
-                    history.push('/login')
+                    console.log(isLogged, isVerified)
                 }
             })
     })
+
 
     return (
         <>
             <Header></Header>
             <div className="container">
                 <Switch>
-                    <Routes isLogged={isLogged} isVerified={isVerified}/>
-                    <Route path={'*'}>
-                        <h1>Please login or confirm you account</h1>
+                    <Route exact path={"/login"}>
+                        <Login/>
                     </Route>
+
+                    {isLogged && !isVerified &&
+                    <Route exact path={"/confirm"}>
+                        <Confirm/>
+                    </Route>
+                    }
+
+                    {isLogged && isVerified &&
+                    <Route exact path={"/home"}>
+                        <Home/>
+                    </Route>}
+
+
+                    {isLogged && !isVerified &&
+                    <Route path={'*'}>
+                        <Link to={'/confirm'}>Please confirm your account</Link>
+                    </Route>}
+
+                    {isLogged && isVerified &&
+                    <Route exact path={"*"}>
+                        <h1>Page in progress...</h1>
+                    </Route>}
+
+                    {!isLogged && !isVerified &&
+                    <Route path={'*'}>
+                        <Link to={'/login'}>Please login in your account</Link>
+                    </Route>}
                 </Switch>
             </div>
         </>

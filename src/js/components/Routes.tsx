@@ -1,49 +1,20 @@
 import React from 'react';
-import {Route} from 'react-router-dom';
-import {Login} from "./Login/Login";
-import {Confirm} from "./Confirm/Confirm";
+import {Route, Redirect} from 'react-router-dom';
 import {Home} from "./Home/Home";
+import {Confirm} from "./Confirm/Confirm";
 
-interface Routes {
-    isLogged: boolean,
-    isVerified: boolean
-}
 
-export const Routes: React.FC<Routes> = ({isLogged, isVerified}) => {
-    let routes = (<div></div>);
-
-    if (isLogged && isVerified) {
-        routes = (
-            <>
-                <Route exact path={"/home"}>
-                    <Home/>
-                </Route>
-                <Route exact path={"/login"}>
-                    <Login/>
-                </Route>
-            </>
-        )
-    } else if (isLogged && !isVerified) {
-        routes = (
-            <>
-                <Route exact path={"/login"}>
-                    <Login/>
-                </Route>
-                <Route exact path={"/confirm"}>
-                    <Confirm/>
-                </Route>
-
-            </>
-        )
-    } else {
-        routes = (
-            <>
-                <Route exact path={"/login"}>
-                    <Login/>
-                </Route>
-            </>
-        )
-    }
-
-    return routes
+export const Verified: React.FC = () => {
+    return (
+        <Route exact path={"/home"}>
+            <Home/>
+        </Route>
+    )
+};
+export const NotVerified: React.FC = () => {
+    return (
+        <Route exact path={"/confirm"}>
+            <Confirm/>
+        </Route>
+    )
 };
