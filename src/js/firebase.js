@@ -3,6 +3,7 @@ import firebase from 'firebase'
 const firebaseConfig = {
     apiKey: "AIzaSyCUl6eaPwV2HR8B-eeo4QSBapc8GK5nEK8",
     authDomain: "testtask-60d27.firebaseapp.com",
+    // https://testtask-60d27.firebaseapp.com
     projectId: "testtask-60d27",
     storageBucket: "testtask-60d27.appspot.com",
     messagingSenderId: "988892715409",

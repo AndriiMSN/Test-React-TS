@@ -3,7 +3,7 @@ import {useHistory} from "react-router-dom";
 
 class AuthServiceWithEmailAndPassword {
     private actionCodeSetting = {
-        url: firebaseConfig.authDomain,
+        url: 'https://' + firebaseConfig.authDomain,
         handleCodeInApp: true
     }
 

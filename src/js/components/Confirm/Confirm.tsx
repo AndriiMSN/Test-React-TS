@@ -49,7 +49,7 @@ export const Confirm: React.FC = () => {
         isSending(true)
         auth
             .sendSignInLinkToEmail(CurrentUserEmail, {
-                url: firebaseConfig.authDomain,
+                url: 'https://' + firebaseConfig.authDomain,
                 handleCodeInApp: true
             })
             .then(() => {
