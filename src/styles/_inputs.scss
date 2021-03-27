@@ -1,4 +1,4 @@
-@import "variables";
+@use "variables";
 
 .input-long
 {
@@ -7,18 +7,18 @@
 
   label
   {
-	font-family: $font1;
+	font-family: variables.$font1;
 	font-style: normal;
 	font-weight: 600;
 	font-size: 14px;
 	line-height: 17px;
-	color: rgba($text-black, 0.8);
+	color: rgba(variables.$text-black, 0.8);
 
 	margin-bottom: 4px;
 
 	span
 	{
-	  color: rgba($text-black, 0.4);
+	  color: rgba(variables.$text-black, 0.4);
 	  }
 	}
 
@@ -36,19 +36,19 @@
 
 	&::placeholder, &:focus
 	{
-	  font-family: $font1;
+	  font-family: variables.$font1;
 	  font-style: normal;
 	  font-weight: 500;
 	  font-size: 14px;
 	  line-height: 17px;
 	  letter-spacing: 0.03em;
 
-	  color: rgba($text-black, 0.4);
+	  color: rgba(variables.$text-black, 0.4);
 	  }
 
 	&:focus
 	{
-	  color: $text-black;
+	  color: variables.$text-black;
 	  border: 0.5px solid #000;
 	  }
 

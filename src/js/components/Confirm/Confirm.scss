@@ -1,4 +1,4 @@
-@import "src/styles/variables";
+@use "src/styles/variables";
 
 .confirm-page
 {
@@ -32,7 +32,7 @@
 	div
 	{
 	  margin-top: 15px;
-	  font-family: $font1;
+	  font-family: variables.$font1;
 	  font-style: normal;
 	  font-weight: 600;
 	  font-size: 14px;

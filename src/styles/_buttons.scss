@@ -1,4 +1,4 @@
-@import 'variables';
+@use 'variables';
 
 button[disabled]
 {
@@ -14,9 +14,9 @@ button
 
 .btn-blue
 {
-  background: $blue;
+  background: variables.$blue;
 
-  font-family: $font1;
+  font-family: variables.$font1;
   font-style: normal;
   font-weight: 700;
   font-size: 18px;

@@ -1,4 +1,4 @@
-@import "variables";
+@use "variables";
 
 .container
 {
@@ -9,16 +9,18 @@
 
   width: 100%;
 
-  background: $grey;
+  background: variables.$grey;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   }
 
-.error{
-  &.text{
-    text-align: center;
-    color: tomato;
-    }
+.error
+{
+  &.text
+  {
+	text-align: center;
+	color: tomato;
+	}
   }

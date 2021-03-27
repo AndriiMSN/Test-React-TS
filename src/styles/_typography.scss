@@ -1,9 +1,15 @@
-@import "variables";
+@use "variables";
 
 @font-face
 {
-  font-family: 'Montserat';
+  font-family: variables.$font1;
   src: url('/src/assets/fonts/Montserrat-Medium.ttf') format('truetype');
+  }
+
+@font-face
+{
+  font-family: 'Montserat-Bold';
+  src: url('/src/assets/fonts/Montserrat-Bold.ttf') format('truetype');
   }
 
 *, body
@@ -16,29 +22,29 @@
 
 h1
 {
-  font-family: $font1;
+  font-family: 'Montserat-Bold';
   font-style: normal;
   font-weight: 800;
   font-size: 36px;
   line-height: 44px;
-  color: $text-black;
+  color: variables.$text-black;
   }
 
 p
 {
   padding: 0;
   margin: 0;
-  font-family: $font1;
+  font-family: variables.$font1;
   font-style: normal;
   font-weight: normal;
   font-size: 14px;
   line-height: 17px;
   text-align: center;
-  color: rgba($text-grey, 0.4);
+  color: rgba(variables.$text-grey, 0.4);
 
   span
   {
 	font-weight: bold;
-    color: $text-grey;
+	color: variables.$text-grey;
 	}
   }
