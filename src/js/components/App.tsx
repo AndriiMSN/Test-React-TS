@@ -1,6 +1,6 @@
 import React from 'react';
 import '/src/styles/index.scss';
-import {Route, Switch, useHistory, Link, Router, Redirect} from "react-router-dom";
+import {Route, Switch, Redirect} from "react-router-dom";
 import {Login} from "./Login/Login";
 import {Home} from "./Home/Home";
 import {Confirm} from "./Confirm/Confirm";
@@ -30,8 +30,8 @@ export const App: React.FC<App> = ({isLogged, setIsLogged, isVerified, setIsVeri
             <Switch>
                 <Route path={'/login'} component={Login}/>
                 <Route path={'/home'} component={Home}/>
-                <Route path={'*'}>
-                    <h1>Developing</h1>
+                <Route path={'/*'}>
+                    <h1>Developing...</h1>
                 </Route>
             </Switch>
         );

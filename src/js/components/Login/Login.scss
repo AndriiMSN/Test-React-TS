@@ -18,5 +18,10 @@
 	{
 	  margin-bottom: 28px;
 	  }
+
+	button[type='submit']
+	{
+	  margin-top: calc(40px - 28px);
+	  }
 	}
   }

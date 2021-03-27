@@ -3,14 +3,18 @@ import './Login.scss'
 import {AuthServices} from "../AuthService";
 import {useHistory} from "react-router-dom";
 import {auth} from "../../firebase";
+import {SetLocalStorage} from "../LocalStorage";
 
 
 export const Login: React.FC = () => {
     const history = useHistory();
+
     const Email = React.useRef<HTMLInputElement>(null);
     const Password = React.useRef<HTMLInputElement>(null);
 
     const [isLoading, setLoading] = React.useState<boolean>(false)
+    const [isError, setError] = React.useState<boolean>(false)
+    const [errMessage, setErrorMessage] = React.useState<string>('')
 
     const SignIn = (e: React.FormEvent): void => {
 
@@ -20,14 +24,19 @@ export const Login: React.FC = () => {
 
         if (AuthServices.validation(Email, EnteredEmail, Password, EnteredPassword)) {
             setLoading(true)
-            AuthServices.createUser(EnteredEmail, EnteredPassword)
-            AuthServices.sendEmail(EnteredEmail)
-            auth.onAuthStateChanged((user) => {
-                if (user) {
-                    history.push('/confirm')
+            auth
+                .createUserWithEmailAndPassword(EnteredEmail, EnteredPassword)
+                .then((auth) => {
+                    SetLocalStorage.setCounterAndDate()
                     setLoading(false)
-                }
-            })
+                    history.push('/confirm')
+                })
+                .catch((e) => {
+                    setError(true)
+                    setErrorMessage(e.message)
+                    setLoading(false)
+                })
+            !isError && AuthServices.sendEmail(EnteredEmail)
         }
 
     }
@@ -45,6 +54,9 @@ export const Login: React.FC = () => {
                 <input ref={Password} type={'password'} name={'login-password'} id={'login-password'}
                        placeholder={'••••••••••••••••••••'}/>
             </div>
+            <p className={'error text' + `${isError ? ' show' : ''}`}>
+                {isError && errMessage}
+            </p>
             <button disabled={isLoading} type={"submit"} className={'btn-blue circle full'}>
                 {!isLoading && 'Create Account'}
                 {isLoading && 'Loading..'}

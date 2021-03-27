@@ -4,6 +4,7 @@ import {AuthServices} from "../AuthService";
 
 import './Confirm.scss'
 import {Mail} from "./icons";
+import {SetLocalStorage} from "../LocalStorage";
 
 export const Confirm: React.FC = () => {
 
@@ -20,8 +21,6 @@ export const Confirm: React.FC = () => {
 
             let currentDate: number = new Date().getTime()
             let diff: number = currentDate - (oldDate + oldSeconds)
-            console.log(currentDate - (oldDate + oldSeconds))
-            console.log(diff * -1)
             if (diff < 0) {
                 setTimeResend(Math.floor((diff * -1) / 1000))
             }
@@ -34,30 +33,27 @@ export const Confirm: React.FC = () => {
         if (timeResend >= 1) {
             id = setInterval(() => {
                 setTimeResend(timeResend - 1);
-                localStorage.setItem('lastCounter', timeResend + "")
-                localStorage.setItem('lastDate', new Date().getTime().toString())
+                SetLocalStorage.setCounterAndDate(timeResend + '')
             }, 1000);
         }
         return () => {
             clearInterval(id)
         }
-    }, [timeResend]);
+    });
 
     const [sending, isSending] = React.useState<boolean>(false)
+
     const Resend = () => {
-        setTimeResend(60)
+        setTimeResend(+SetLocalStorage.counter)
         isSending(true)
         auth
-            .sendSignInLinkToEmail(CurrentUserEmail, {
-                url: 'https://' + firebaseConfig.authDomain,
-                handleCodeInApp: true
-            })
+            .sendSignInLinkToEmail(CurrentUserEmail, AuthServices.actionCodeSetting)
             .then(() => {
                 isSending(false)
                 window.localStorage.setItem('emailForSignIn', CurrentUserEmail);
             })
             .catch((e) => {
-                console.log(e)
+
             })
     }
 

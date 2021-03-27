@@ -2,8 +2,8 @@ import {auth, firebaseConfig} from "../firebase";
 import {useHistory} from "react-router-dom";
 
 class AuthServiceWithEmailAndPassword {
-    private actionCodeSetting = {
-        url: 'https://' + firebaseConfig.authDomain,
+    readonly actionCodeSetting = {
+        url: 'http://localhost:8080/confirm',
         handleCodeInApp: true
     }
 
@@ -24,17 +24,6 @@ class AuthServiceWithEmailAndPassword {
         return isValid
     }
 
-    createUser(email: string, password: string): void {
-        auth
-            .createUserWithEmailAndPassword(email, password)
-            .then((auth) => {
-                console.log(auth)
-            })
-            .catch((e) => {
-                console.log(e)
-            })
-    }
-
     sendEmail(
         email: string,
         actionCodeSetting = this.actionCodeSetting
@@ -46,14 +35,14 @@ class AuthServiceWithEmailAndPassword {
                     window.localStorage.setItem('emailForSignIn', email);
                 })
                 .catch((e) => {
-                    console.log(e)
+
                 })
         }
     }
 
     signOut = (e?: { preventDefault: () => void; }) => {
         e && e.preventDefault()
-        console.log('s')
+        auth.currentUser?.delete()
         auth.signOut().then(() => {
             useHistory().push('/login')
         }).catch((error) => {
