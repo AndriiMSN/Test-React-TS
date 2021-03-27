@@ -3,7 +3,8 @@ import {useHistory} from "react-router-dom";
 
 class AuthServiceWithEmailAndPassword {
     readonly actionCodeSetting = {
-        url: 'http://localhost:8080/confirm',
+        url: 'https://' + firebaseConfig.authDomain + '/confirm',
+        // url: 'http://localhost:8080/confirm',
         handleCodeInApp: true
     }
 
